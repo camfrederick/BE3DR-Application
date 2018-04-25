@@ -16,8 +16,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.JFXPanel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
@@ -43,19 +47,26 @@ public class FileSelection{
 	
 	private JFXPanel panel;
 	
-	public static int index;
+	static ArrayList<File> videoInput;
+	static ArrayList<File> radarInput;
 	
 	public FileSelection(int num, ArrayList<File> videoFiles, ArrayList<File> radarOutput){
 		
+		videoInput = videoFiles;
+		radarInput = radarOutput;
 		panel = new JFXPanel();
 		Platform.runLater(new Runnable()
 		{
 			public void run()
 			{
-				VBox v = new VBox();
+				BorderPane pane = new BorderPane();
+				GridPane samples = new GridPane();
+				samples.setPadding(new Insets(14));
+				samples.setHgap(10);
+				samples.setVgap(20);
+				
 				for(int i = 0; i < num; i++){
-					String s = videoFiles.get(i).toString();
-					ScrollPane sp = new ScrollPane();
+					String s = videoInput.get(i).toString();
 					int index = s.lastIndexOf('\\');
 					s = s.substring(index + 1, s.length() -4);
 					final Button button = new Button(s);
@@ -63,28 +74,52 @@ public class FileSelection{
 						@Override
 						public void handle(ActionEvent event)
 						{
-							FileSelection.index = -1;
+							int sample = -1;
 							for(int j = 0; j < buttons.size(); j++){
 								if(event.getSource().equals(buttons.get(j)))
-									FileSelection.index = j;
+									sample = j;
 							}
 							//new VideoInput(videoFiles.get(index).toURI().toString(), radarOutput.get(index).toString());
-							Application.main(null);
+							//Application.main(null);
 							//new RadarVideo(videoFiles.get(index).toURI().toString(), radarOutput.get(index).toString(), 4);
+							new VideoInput(videoInput.get(sample).toURI().toString(), radarInput.get(sample).toString());
 							buttonPushed();
 						}
 					});
-					v.getChildren().addAll(button, sp);
-					VBox.setVgrow(sp, Priority.ALWAYS);
+					samples.add(button, i % 2, i / 2);
+					
 					buttons.add(button);
 				}
+				ScrollPane scrollPane = new ScrollPane(samples);
 				
-				Scene aScene = new Scene(v);
+				
+				MenuBar menuBar = new MenuBar();
+				 
+		        // --- Menu File
+		        Menu changeInput = new Menu("Edit");
+		        MenuItem changeInputFolders = new MenuItem("Change Input Folders");
+		        changeInputFolders.setOnAction(new EventHandler<ActionEvent>() {
+		            public void handle(ActionEvent t) {
+		                new ChangeInputPage();
+		                buttonPushed();
+		            }
+		        }); 
+		        
+		        
+		        
+		        changeInput.getItems().addAll(changeInputFolders);
+		 
+		        menuBar.getMenus().addAll(changeInput);
+		 
+		        pane.setTop(menuBar);
+		        pane.setCenter(scrollPane);
+		        
+		        Scene aScene = new Scene(pane);
 				panel.setScene(aScene);
 			}	
 		});
 		jFrame.add(panel);
-		jFrame.setSize(2000, 1000);
+		jFrame.setSize(520, 800);
 		jFrame.setLocationRelativeTo(null);
 		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jFrame.setVisible(true);
@@ -98,4 +133,11 @@ public class FileSelection{
 		jFrame.setVisible(false);
 	}
 	
+	public static void setVideoInput(ArrayList<File> newVideoFolder) {
+		videoInput = newVideoFolder;
+	}
+	
+	public static void setRadarInput(ArrayList<File> newRadarFolder) {
+		radarInput = newRadarFolder;
+	}
 }

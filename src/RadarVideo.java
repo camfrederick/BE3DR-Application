@@ -306,6 +306,8 @@ public class RadarVideo{
         gc.strokeLine(width - 110, bottomRoad - roadIncrements, width - 100, bottomRoad - roadIncrements);
         gc.strokeLine(width - 110, bottomRoad, width - 100, bottomRoad);
         
+        gc.setLineWidth(2);
+        
         drawTargets(gc);
 	}
 
@@ -388,6 +390,7 @@ public class RadarVideo{
         gc.strokeLine(width - 60, bottomRoad - (2 * roadIncrements), width - 50, bottomRoad - (2 * roadIncrements));
         gc.strokeLine(width - 60, bottomRoad - roadIncrements, width - 50, bottomRoad - roadIncrements);
         gc.strokeLine(width - 60, bottomRoad, width - 50, bottomRoad);
+        gc.setLineWidth(2);
         
         drawTargets(gc);
 	}
@@ -431,6 +434,8 @@ public class RadarVideo{
         		gc.strokeText(currentTargets.get(i).getID(), x-16.8, y + 6);
         	
         }
+        
+        gc.setLineWidth(2);
         
         
     }

@@ -10,8 +10,8 @@ public class Application {
 	private static ArrayList<File> videoFiles = new ArrayList<File>();
 	private static ArrayList<File> radarOutput = new ArrayList<File>();
 	
-	public static final String VID_FOLDER = "C:/Users/Cam/workspace/BeeperGUI/Video";
-	public static final String OUTPUT_FOLDER = "C:/Users/Cam/workspace/BeeperGUI/RadarOutput";
+	public static String VID_FOLDER = "C:/Users/Cam/workspace/BeeperGUI/Video";
+	public static String OUTPUT_FOLDER = "C:/Users/Cam/workspace/BeeperGUI/RadarOutput";
 
 	public static int numButtons = findFolders(VID_FOLDER, OUTPUT_FOLDER);
 	
@@ -21,13 +21,8 @@ public class Application {
 	
 	public static void main(String[] args)
 	{
-		if(opening){
-			opening = false;
-			mainMenu = new FileSelection(numButtons, videoFiles, radarOutput);
-		}
-		else
-			applicationWindow = new VideoInput(videoFiles.get(FileSelection.index).toURI().toString(), radarOutput.get(FileSelection.index).toString());
-			//applicationWindow = new RadarVideo(videoFiles.get(FileSelection.index).toURI().toString(), radarOutput.get(FileSelection.index).toString(), 4);
+		mainMenu = new FileSelection(findFolders(VID_FOLDER, OUTPUT_FOLDER), videoFiles, radarOutput);
+		//applicationWindow = new RadarVideo(videoFiles.get(FileSelection.index).toURI().toString(), radarOutput.get(FileSelection.index).toString(), 4);
 	}
 	
 	public static int findFolders(String vid, String out) {
@@ -35,6 +30,9 @@ public class Application {
 		File o = new File(out);
 		File[] video = v.listFiles();
 		File[] output = o.listFiles();
+		
+		videoFiles.clear();
+		radarOutput.clear();
 		
 		for(int i = 0; i < video.length; i++) {
 			String s = video[i].toString();
@@ -54,7 +52,7 @@ public class Application {
 		
 		if(videoFiles.size() != radarOutput.size()){
 			System.err.println("Missing a file");
-			System.exit(0);
+			new ChangeInputPage();
 		}
 		
 		int numButtons = radarOutput.size();
@@ -68,6 +66,14 @@ public class Application {
 	
 	public static int getNumButtons() {
 		return numButtons;
+	}
+	
+	public static void setVideoInput(String newVideoFolder) {
+		VID_FOLDER = newVideoFolder;
+	}
+	
+	public static void setRadarInput(String newRadarFolder) {
+		OUTPUT_FOLDER = newRadarFolder;
 	}
 	
 }
