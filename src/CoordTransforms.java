@@ -57,16 +57,16 @@ public class CoordTransforms {
 //		float Ix = -2.0f * Theta_hs/FOVh;
 //		float Iz = -2.0f * Theta_vs/FOVv;
 		float Xvt = input.getX() - Xs;
-		float Xvr = (float)(Xvt * Math.cos(Theta_hs) + input.getY() * Math.sin(Theta_hs));
-		float Yvr = (float)(input.getY()  * Math.cos(Theta_hs) - Xvt * Math.sin(Theta_hs));
+		float Xvr = (float)(Xvt * Math.cos(Math.toRadians(Theta_hs)) + input.getY() * Math.sin(Math.toRadians(Theta_hs)));
+		float Yvr = (float)(input.getY()  * Math.cos(Math.toRadians(Theta_hs)) - Xvt * Math.sin(Math.toRadians(Theta_hs)));
 		float Zvr = -1 * Zs;
 		float Xr = Xvr;
-		float Yr = (float) (Yvr - Zvr * Math.sin(-Theta_vs));
+		float Yr = (float) (Yvr - Zvr * Math.sin(Math.toRadians(-1*Theta_vs)));
 		/*System.out.println("In roadway->video, Input X = " + input.getX() + ", Y = " + input.getY() + 
 				", Xvt = " + Xvt + ", Xvr = " +Xvr + ", Yvr = " + Yvr + 
 				"\n");*/
 		
-		float Zr = (float)(Zvr * Math.cos(-Theta_vs) - Yvr * Math.sin(-Theta_vs));
+		float Zr = (float)(Zvr * Math.cos(Math.toRadians(-1 *Theta_vs)) - Yvr * Math.sin(Math.toRadians(-1 *Theta_vs)));
 		//System.out.println("In roadway->video, Input X = " + input.getX() + ", Y = " + input.getY() + 
 		//		", Z = " + input.getZ() + ", Xvt = " + Xvt + ", Xvr = " +Xvr + ", Yvr = " + Yvr + 
 		//		", Zvr = " + Zvr + "\n");

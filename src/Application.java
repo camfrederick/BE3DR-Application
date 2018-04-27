@@ -13,15 +13,22 @@ public class Application {
 	public static String VID_FOLDER = "C:/Users/Cam/workspace/BeeperGUI/Video";
 	public static String OUTPUT_FOLDER = "C:/Users/Cam/workspace/BeeperGUI/RadarOutput";
 
-	public static int numButtons = findFolders(VID_FOLDER, OUTPUT_FOLDER);
+	
 	
 	public static FileSelection mainMenu;
 	public static VideoInput applicationWindow;
 	public static boolean opening = true;
+	public static boolean needNewInput = false;
+	public static int numButtons;
 	
 	public static void main(String[] args)
 	{
-		mainMenu = new FileSelection(findFolders(VID_FOLDER, OUTPUT_FOLDER), videoFiles, radarOutput);
+		numButtons = findFolders(VID_FOLDER, OUTPUT_FOLDER);
+		
+		if(needNewInput)
+			new ChangeInputPage();
+		else
+			mainMenu = new FileSelection(numButtons, videoFiles, radarOutput);
 		//applicationWindow = new RadarVideo(videoFiles.get(FileSelection.index).toURI().toString(), radarOutput.get(FileSelection.index).toString(), 4);
 	}
 	
@@ -52,8 +59,10 @@ public class Application {
 		
 		if(videoFiles.size() != radarOutput.size()){
 			System.err.println("Missing a file");
-			new ChangeInputPage();
+			needNewInput = true;
 		}
+		else
+			needNewInput = false;
 		
 		int numButtons = radarOutput.size();
 		

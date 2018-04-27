@@ -70,6 +70,7 @@ public class FileSelection{
 					int index = s.lastIndexOf('\\');
 					s = s.substring(index + 1, s.length() -4);
 					final Button button = new Button(s);
+					button.setPrefWidth(225);
 					button.setOnAction(new EventHandler<ActionEvent>() {
 						@Override
 						public void handle(ActionEvent event)
