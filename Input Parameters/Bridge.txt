@@ -1,0 +1,3 @@
+Bridge Case: 
+Xs = -5m; Zs = 10m; Theta_hs = -10deg; Theta_vs = 0deg; 
+FOVh = 15m; FOVv 170m;  Lanes = 4; fps = 3;
