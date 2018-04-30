@@ -40,37 +40,41 @@ public class Application {
 		
 		videoFiles.clear();
 		radarOutput.clear();
-		
-		for(int i = 0; i < video.length; i++) {
-			String s = video[i].toString();
-			s = s.substring(s.length() - 3);
-			if(s.equals("mp4")){
-				videoFiles.add(video[i]);
-			}
-		}
-		
-		for(int i = 0; i < output.length; i++) {
-			String t = output[i].toString();
-			t = t.substring(t.length() - 3);
-			if(t.equals("txt")){
-				radarOutput.add(output[i]);
-			}
-		}
-		
-		if(videoFiles.size() != radarOutput.size()){
-			System.err.println("Missing a file");
+		if(video == null || output == null){
 			needNewInput = true;
+			return -1;
 		}
-		else
-			needNewInput = false;
+		else{
+			for(int i = 0; i < video.length; i++) {
+				String s = video[i].toString();
+				s = s.substring(s.length() - 3);
+				if(s.equals("mp4")){
+					videoFiles.add(video[i]);
+				}
+			}
 		
-		int numButtons = radarOutput.size();
+			for(int i = 0; i < output.length; i++) {
+				String t = output[i].toString();
+				t = t.substring(t.length() - 3);
+				if(t.equals("txt")){
+					radarOutput.add(output[i]);
+				}
+			}
 		
-		if(videoFiles.size() < numButtons)
-			numButtons = videoFiles.size();
+			if(videoFiles.size() != radarOutput.size()){
+				System.err.println("Missing a file");
+				needNewInput = true;
+			}
+			else
+				needNewInput = false;
 		
-		return numButtons;
+			int numButtons = radarOutput.size();
 		
+			if(videoFiles.size() < numButtons)
+				numButtons = videoFiles.size();
+		
+			return numButtons;
+		}
 	}
 	
 	public static int getNumButtons() {
