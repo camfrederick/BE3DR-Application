@@ -51,7 +51,7 @@ public class FileSelection{
 	static ArrayList<File> radarInput;
 	
 	public FileSelection(int num, ArrayList<File> videoFiles, ArrayList<File> radarOutput){
-		
+		buttons.clear();
 		videoInput = videoFiles;
 		radarInput = radarOutput;
 		panel = new JFXPanel();
